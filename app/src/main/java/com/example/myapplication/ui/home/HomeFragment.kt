@@ -1,38 +1,29 @@
 package com.example.myapplication.ui.home
 
-import android.os.Bundle
-import android.view.View
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.exa.HomeAdapter
-import com.example.myapplication.R
-import com.example.myapplication.base.BaseFragment
-import com.example.myapplication.databinding.FragmentHomeBinding
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.myapplication.base.BasePagingAdapter
+import com.example.myapplication.base.BasePagingFragment
+import com.example.myapplication.data.model.Movie
+import com.example.myapplication.databinding.FragmentPagingBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
-    override val layoutId: Int = R.layout.fragment_home
+class HomeFragment : BasePagingFragment<FragmentPagingBinding, HomeViewModel, Movie>() {
     override val viewModel: HomeViewModel by viewModels()
-    private val movieAdapter = HomeAdapter(itemClickListener = {
-        Timber.d("amen, $it")
-    })
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.apply {
-            getMovieList()
-        }
-        if (viewBinding.recyclerViewMovieList.adapter == null) {
-            viewBinding.recyclerViewMovieList.adapter = movieAdapter
-        }
-        lifecycleScope.launchWhenStarted {
-            viewModel.movieList.collectLatest { movieList ->
-                movieAdapter.submitList(movieList)
+    override val pagingAdapter: BasePagingAdapter<Movie, out ViewDataBinding> by lazy {
+        HomeAdapter(
+            itemClickListener = {
+                Timber.d("amen $it")
             }
-        }
+        )
     }
+    override val swipeRefreshLayout: SwipeRefreshLayout
+        get() = viewBinding.refreshLayout
+    override val recyclerView: RecyclerView
+        get() = viewBinding.recyclerView
+
 }

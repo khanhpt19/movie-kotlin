@@ -1,14 +1,14 @@
-package com.exa
+package com.example.myapplication.ui.home
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.myapplication.R
-import com.example.myapplication.base.BaseListAdapter
+import com.example.myapplication.base.BasePagingAdapter
 import com.example.myapplication.data.model.Movie
 import com.example.myapplication.databinding.ItemMovieBinding
 import com.example.myapplication.utils.setSingleClick
 
 class HomeAdapter(val itemClickListener: (Movie) -> Unit = {}) :
-    BaseListAdapter<Movie, ItemMovieBinding>(
+    BasePagingAdapter<Movie, ItemMovieBinding>(
         object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id

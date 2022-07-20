@@ -21,7 +21,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="@dimen/dp_200"
             android:text="@{item.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
